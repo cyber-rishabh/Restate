@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { router, useLocalSearchParams } from "expo-router";
 
 import icons from "@/constants/icons";
@@ -16,33 +16,31 @@ import { Card } from "@/components/Cards";
 import Filters from "@/components/Filters";
 import NoResults from "@/components/NoResults";
 
-import { getProperties } from "@/lib/appwrite";
-import { useAppwrite } from "@/lib/useAppwrite";
+import { getProperties } from "@/lib/firebase";
+import type { Property } from '@/lib/firebase';
 
 const Explore = () => {
   const params = useLocalSearchParams<{ query?: string; filter?: string }>();
+  const [properties, setProperties] = useState<Property[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const {
-    data: properties,
-    refetch,
-    loading,
-  } = useAppwrite({
-    fn: getProperties,
-    params: {
-      filter: params.filter!,
-      query: params.query!,
-    },
-    skip: true,
-  });
+  const fetchProperties = async () => {
+    setLoading(true);
+    console.log('🔍 Fetching properties for explore with filter:', params.filter, 'query:', params.query);
+    const props = await getProperties(params.filter, params.query, undefined, false); // includeSold = false
+    console.log('📊 Fetched properties for explore:', props.length, 'properties');
+    setProperties(props);
+    setLoading(false);
+  };
 
   useEffect(() => {
-    refetch({
-      filter: params.filter!,
-      query: params.query!,
-    });
+    fetchProperties();
   }, [params.filter, params.query]);
 
-  const handleCardPress = (id: string) => router.push(`/properties/${id}`);
+  const handleCardPress = (id: string) => {
+    console.log('Navigating to property detail with id:', id);
+    router.push(`/properties/${id}`);
+  };
 
   return (
     <SafeAreaView className="h-full bg-white">
@@ -50,9 +48,9 @@ const Explore = () => {
         data={properties}
         numColumns={2}
         renderItem={({ item }) => (
-          <Card item={item} onPress={() => handleCardPress(item.$id)} />
+          <Card item={item} onPress={() => handleCardPress(item.id ?? '')} />
         )}
-        keyExtractor={(item) => item.$id}
+        keyExtractor={(item) => item.id ?? ''}
         contentContainerClassName="pb-32"
         columnWrapperClassName="flex gap-5 px-5"
         showsVerticalScrollIndicator={false}

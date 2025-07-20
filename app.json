@@ -15,7 +15,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.cyberrishabh123.restate"
     },
     "web": {
       "bundler": "metro",
@@ -49,6 +50,14 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "4f2bdd48-ae81-49d5-b5d5-f1d2fe3ce23c"
+      }
     }
   }
 }

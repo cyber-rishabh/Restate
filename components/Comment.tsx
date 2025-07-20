@@ -4,22 +4,28 @@ import images from "@/constants/images";
 import icons from "@/constants/icons";
 import { Models } from "react-native-appwrite";
 
-interface Props {
-  item: Models.Document;
-}
+type Review = {
+  id?: string;
+  rating: number;
+  comment: string;
+  user: {
+    name: string;
+    avatar: string;
+  };
+};
 
-const Comment = ({ item }: Props) => {
+const Comment = ({ item }: { item: Review }) => {
   return (
     <View className="flex flex-col items-start">
       <View className="flex flex-row items-center">
-        <Image source={{ uri: item.avatar }} className="size-14 rounded-full" />
+        <Image source={{ uri: item.user.avatar }} className="size-14 rounded-full" />
         <Text className="text-base text-black-300 text-start font-rubik-bold ml-3">
-          {item.name}
+          {item.user.name}
         </Text>
       </View>
 
       <Text className="text-black-200 text-base font-rubik mt-2">
-        {item.review}
+        {item.comment}
       </Text>
 
       <View className="flex flex-row items-center w-full justify-between mt-4">
@@ -34,7 +40,7 @@ const Comment = ({ item }: Props) => {
           </Text>
         </View>
         <Text className="text-black-100 text-sm font-rubik">
-          {new Date(item.$createdAt).toDateString()}
+          {new Date(item.id || "").toDateString()}
         </Text>
       </View>
     </View>
