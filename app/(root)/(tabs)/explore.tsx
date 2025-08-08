@@ -18,11 +18,15 @@ import NoResults from "@/components/NoResults";
 
 import { getProperties } from "@/lib/firebase";
 import type { Property } from '@/lib/firebase';
+import SaveSearchModal from "@/components/SaveSearchModal";
+import { useGlobalContext } from "@/lib/global-provider";
 
 const Explore = () => {
+  const { user } = useGlobalContext();
   const params = useLocalSearchParams<{ query?: string; filter?: string }>();
   const [properties, setProperties] = useState<Property[]>([]);
   const [loading, setLoading] = useState(true);
+  const [showSaveSearch, setShowSaveSearch] = useState(false);
 
   const fetchProperties = async () => {
     setLoading(true);
@@ -40,6 +44,13 @@ const Explore = () => {
   const handleCardPress = (id: string) => {
     console.log('Navigating to property detail with id:', id);
     router.push(`/properties/${id}`);
+  };
+
+  const getSearchCriteria = () => {
+    return {
+      propertyType: params.filter,
+      location: params.query,
+    };
   };
 
   return (
@@ -82,12 +93,32 @@ const Explore = () => {
             <View className="mt-5">
               <Filters />
 
-              <Text className="text-xl font-rubik-bold text-black-300 mt-5">
-                Found {properties?.length} Properties
-              </Text>
+              <View className="flex-row items-center justify-between mt-5">
+                <Text className="text-xl font-rubik-bold text-black-300">
+                  Found {properties?.length} Properties
+                </Text>
+                
+                {user && (
+                  <TouchableOpacity
+                    onPress={() => setShowSaveSearch(true)}
+                    className="bg-primary-100 px-4 py-2 rounded-full border border-primary-200"
+                  >
+                    <Text className="text-primary-300 font-rubik-medium text-sm">
+                      🔔 Save Search
+                    </Text>
+                  </TouchableOpacity>
+                )}
+              </View>
             </View>
           </View>
         )}
+      />
+      
+      {/* Save Search Modal */}
+      <SaveSearchModal
+        visible={showSaveSearch}
+        onClose={() => setShowSaveSearch(false)}
+        searchCriteria={getSearchCriteria()}
       />
     </SafeAreaView>
   );

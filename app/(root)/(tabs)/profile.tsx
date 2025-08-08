@@ -13,6 +13,7 @@ import {
 } from "react-native";
 
 import { useGlobalContext } from "@/lib/global-provider";
+import { useRouter } from 'expo-router';
 
 import icons from "@/constants/icons";
 import { settings } from "@/constants/data";
@@ -25,6 +26,8 @@ import { getProperties, markPropertyAsSold, markPropertyAsUnsold, Property } fro
 import { db } from '@/lib/firebase';
 import { doc, setDoc } from 'firebase/firestore';
 import * as FileSystem from 'expo-file-system';
+import images from '@/constants/images';
+import { demoNotifications } from '@/lib/notification-demo';
 
 const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL || '';
 const supabaseKey = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY || '';
@@ -62,6 +65,7 @@ const SettingsItem = ({
 
 const Profile = () => {
   const { user, login, logout, favorites, removeFavorite } = useGlobalContext();
+  const router = useRouter();
   const [modalVisible, setModalVisible] = useState(false);
   const [newName, setNewName] = useState(user?.name || "");
   const [newPhoto, setNewPhoto] = useState<string | null>(null);
@@ -69,8 +73,9 @@ const Profile = () => {
   const [notifModal, setNotifModal] = useState(false);
   const [langModal, setLangModal] = useState(false);
   const [helpModal, setHelpModal] = useState(false);
-  const [propertyAdded, setPropertyAdded] = useState(false); // Track if property was added
-  const [selectedHelp, setSelectedHelp] = useState<number | null>(null); // For help Q&A
+  const [favoritesModal, setFavoritesModal] = useState(false); // New favorites modal
+  const [propertyAdded, setPropertyAdded] = useState(false);
+  const [selectedHelp, setSelectedHelp] = useState<number | null>(null);
   const [showSoldModal, setShowSoldModal] = useState(false);
   const [showUnsoldModal, setShowUnsoldModal] = useState(false);
   const [properties, setProperties] = useState<Property[]>([]);
@@ -86,6 +91,9 @@ const Profile = () => {
     if (favorites.length > 0) {
       getProperties(undefined, undefined, undefined, true).then(props => {
         setFavoriteProperties(props.filter(p => p.id && favorites.includes(p.id)));
+      }).catch(error => {
+        console.error('Error fetching favorite properties:', error);
+        setFavoriteProperties([]);
       });
     } else {
       setFavoriteProperties([]);
@@ -207,7 +215,7 @@ const Profile = () => {
           Alert.alert('Error', 'Failed to upload profile photo.');
         } else {
           photoURL = data.publicUrl + '?v=' + Date.now();
-          console.log('Supabase profile photo public URL:', photoURL);
+            console.log('Supabase profile photo public URL:', photoURL);
           Alert.alert('Success', 'Profile photo updated successfully!');
           // Save avatar and name in Firestore users collection
           if (auth.currentUser) {
@@ -254,120 +262,191 @@ const Profile = () => {
       setNewName(user?.name || "");
       setModalVisible(true);
     }
+    if (title === "Favorites") {
+      setFavoritesModal(true);
+    }
     if (title === "Notifications" && propertyAdded) setNotifModal(true);
     if (title === "Language") setLangModal(true);
     if (title === "Help Center") {
       setHelpModal(true);
       setSelectedHelp(null);
     }
+    if (title === "Test Notifications") {
+      if (user) {
+        demoNotifications.sendAllDemoNotifications(user.id);
+        Alert.alert('Demo Notifications', 'Demo notifications will be sent over the next 10 seconds!');
+      }
+    }
   };
 
-  const defaultAvatar = 'https://ui-avatars.com/api/?name=User&background=0061FF&color=fff&size=256';
+  const defaultAvatar = images.avatar;
 
   return (
-    <SafeAreaView className="h-full bg-white">
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerClassName="pb-32 px-7"
-      >
-        <View className="flex flex-row items-center justify-between mt-5">
-          <Text className="text-xl font-rubik-bold">Profile</Text>
-          <Image source={icons.bell} className="size-5" />
-        </View>
-
-        <View className="flex flex-row justify-center mt-5">
-          <View className="flex flex-col items-center relative mt-5">
-            <Image
-              source={{ uri: user?.avatar }}
-              className="size-44 relative rounded-full"
-            />
-            <Text className="text-2xl font-rubik-bold mt-2">{user?.name}</Text>
+    <View style={{ flex: 1 }}>
+      <SafeAreaView className="flex-1 bg-white">
+        <ScrollView className="flex-1 px-6">
+          <View className="flex flex-row items-center justify-between mt-5">
+            <Text className="text-xl font-rubik-bold">Profile</Text>
           </View>
-        </View>
 
-        <View className="flex flex-col mt-10">
-          {/* Removed My Bookings and Payments */}
-        </View>
+          {/* Removed topmost user photo for cleaner UI */}
 
-        {/* Favorites Section */}
-        {favoriteProperties.length > 0 && (
-          <View style={{ marginTop: 24 }}>
-            <Text style={{ fontWeight: 'bold', fontSize: 18, marginBottom: 8 }}>Favorites</Text>
-            <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginBottom: 12 }}>
-              {favoriteProperties.map((p) => (
-                <View key={p.id} style={{ width: 220, marginRight: 12, backgroundColor: '#f5f5f5', borderRadius: 12, padding: 10 }}>
-                  <Image source={{ uri: p.image }} style={{ width: 200, height: 120, borderRadius: 8, marginBottom: 6 }} />
-                  <Text style={{ fontWeight: 'bold', fontSize: 16 }}>{p.name}</Text>
-                  <Text style={{ color: '#666', fontSize: 14 }}>{p.address}</Text>
-                  <TouchableOpacity
-                    style={{ backgroundColor: '#FF3B30', paddingVertical: 4, paddingHorizontal: 10, borderRadius: 6, marginTop: 6 }}
-                    onPress={() => removeFavorite(p.id!)}
-                  >
-                    <Text style={{ color: '#fff', fontWeight: 'bold' }}>Remove</Text>
-                  </TouchableOpacity>
+          <View className="flex flex-col mt-10">
+            {/* Removed My Bookings and Payments */}
+          </View>
+
+          {/* Removed Favorites Section - now handled in modal */}
+
+          {/* Sold Properties Section - moved above settings for visibility */}
+          {isAdmin && (
+            <View style={{ marginTop: 16, marginBottom: 32 }}>
+              <View style={{ borderBottomWidth: 1, borderColor: '#e0e7ff', marginBottom: 18 }} />
+              <Text style={{ fontWeight: 'bold', fontSize: 22, marginBottom: 12, color: '#191D31', letterSpacing: 0.2 }}>Sold Properties</Text>
+              <TouchableOpacity
+                style={{ backgroundColor: '#0061FF', padding: 14, borderRadius: 12, marginBottom: 18, alignItems: 'center', shadowColor: '#0061FF', shadowOpacity: 0.12, shadowRadius: 8, shadowOffset: { width: 0, height: 2 }, elevation: 2 }}
+                onPress={() => { fetchProperties(); setShowSoldModal(true); }}
+                activeOpacity={0.85}
+              >
+                <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 16, letterSpacing: 0.2 }}>Mark Property as Sold</Text>
+              </TouchableOpacity>
+              {properties.filter(p => p.sold).length === 0 ? (
+                <Text style={{ color: '#888', fontSize: 16, textAlign: 'center', marginTop: 12 }}>No sold properties yet.</Text>
+              ) : (
+                <View style={{ gap: 14 }}>
+                  {properties.filter(p => p.sold).map((p) => (
+                    <View key={p.id} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', backgroundColor: '#f7f8fa', borderRadius: 14, padding: 14, shadowColor: '#000', shadowOpacity: 0.07, shadowRadius: 8, shadowOffset: { width: 0, height: 2 }, elevation: 1, marginBottom: 2 }}>
+                      <View style={{ flex: 1 }}>
+                        <Text style={{ fontWeight: 'bold', fontSize: 16, color: '#191D31', marginBottom: 2 }}>{p.name}</Text>
+                        <Text style={{ color: '#666', fontSize: 14, marginBottom: 2 }}>{p.address}</Text>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 2 }}>
+                          <Text style={{ color: '#FF3B30', fontWeight: 'bold', fontSize: 13, marginRight: 8 }}>SOLD</Text>
+                          <Image source={icons.star} style={{ width: 16, height: 16, tintColor: '#FF3B30' }} />
+                        </View>
+                      </View>
+                      <TouchableOpacity
+                        style={{ backgroundColor: '#34C759', paddingVertical: 8, paddingHorizontal: 18, borderRadius: 8, marginLeft: 10 }}
+                        onPress={() => handleMarkUnsold(p)}
+                        disabled={unsoldLoading}
+                        activeOpacity={0.85}
+                      >
+                        <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 15 }}>{unsoldLoading ? 'Adding...' : 'Add Back'}</Text>
+                      </TouchableOpacity>
+                    </View>
+                  ))}
                 </View>
-              ))}
-            </ScrollView>
-          </View>
-        )}
+              )}
+            </View>
+          )}
 
-        <View className="flex flex-col mt-5 border-t pt-5 border-primary-200">
-          {/* Show profile picture above settings */}
-          <View style={{ alignItems: 'center', marginBottom: 16 }}>
-            <Image
-              source={{ uri: user?.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent((user?.name || 'U')[0])}&background=0061FF&color=fff&size=256` }}
-              style={{ width: 72, height: 72, borderRadius: 36, borderWidth: 2, borderColor: '#0061FF', backgroundColor: '#eee' }}
-            />
-            <Text style={{ marginTop: 8, fontWeight: 'bold', fontSize: 16 }}>{user?.name}</Text>
-          </View>
-          {settings.map((item, index) => (
-            (item.title !== "Notifications" || propertyAdded) && (
-              <SettingsItem
-                key={index}
-                {...item}
-                onPress={() => handleSettingPress(item.title)}
+          <View className="flex flex-col mt-5 border-t pt-5 border-primary-200">
+            {/* Show profile picture above settings */}
+            <View style={{ alignItems: 'center', marginBottom: 16 }}>
+              <Image
+                source={defaultAvatar}
+                style={{ width: 72, height: 72, borderRadius: 36, borderWidth: 2, borderColor: '#0061FF', backgroundColor: '#eee' }}
               />
-            )
-          ))}
-        </View>
-
-        <View className="flex flex-col border-t mt-5 pt-5 border-primary-200">
-          <SettingsItem
-            icon={icons.logout}
-            title="Logout"
-            textStyle="text-danger"
-            showArrow={false}
-            onPress={handleLogout}
-          />
-        </View>
-        {isAdmin && (
-          <View style={{ marginTop: 32 }}>
-            <Text style={{ fontWeight: 'bold', fontSize: 18, marginBottom: 8 }}>Admin: Sold Properties</Text>
-            <TouchableOpacity
-              style={{ backgroundColor: '#0061FF', padding: 12, borderRadius: 8, marginBottom: 12 }}
-              onPress={() => { fetchProperties(); setShowSoldModal(true); }}
-            >
-              <Text style={{ color: '#fff', textAlign: 'center', fontWeight: 'bold' }}>Mark Property as Sold</Text>
-            </TouchableOpacity>
-            {/* List of sold properties with 'Add Back' option */}
-            <Text style={{ fontWeight: 'bold', fontSize: 16, marginBottom: 6 }}>Sold Properties</Text>
-            <ScrollView style={{ maxHeight: 120, marginBottom: 12 }}>
-              {properties.filter(p => p.sold).map((p) => (
-                <View key={p.id} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', padding: 8, backgroundColor: '#f5f5f5', borderRadius: 6, marginBottom: 6 }}>
-                  <Text>{p.name} ({p.address})</Text>
-                  <TouchableOpacity
-                    style={{ backgroundColor: '#34C759', paddingVertical: 4, paddingHorizontal: 10, borderRadius: 6 }}
-                    onPress={() => handleMarkUnsold(p)}
-                    disabled={unsoldLoading}
-                  >
-                    <Text style={{ color: '#fff', fontWeight: 'bold' }}>{unsoldLoading ? 'Adding...' : 'Add Back'}</Text>
-                  </TouchableOpacity>
-                </View>
-              ))}
-            </ScrollView>
+              <Text style={{ marginTop: 8, fontWeight: 'bold', fontSize: 16 }}>{user?.name}</Text>
+              {isAdmin && (
+                <TouchableOpacity
+                  onPress={() => router.replace('/admin')}
+                  className="bg-primary-300 rounded-xl py-3 px-6 mt-4 mb-2 flex-row items-center justify-center shadow-md"
+                  activeOpacity={0.85}
+                >
+                  <Image source={icons.edit} className="w-5 h-5 mr-2 tint-white" />
+                  <Text className="text-white text-lg font-rubik-bold">Go to Admin Panel</Text>
+                </TouchableOpacity>
+              )}
+              {/* Logout button - always visible below profile info */}
+              <TouchableOpacity
+                onPress={handleLogout}
+                className="bg-red-500 rounded-xl py-3 px-6 mt-4 mb-4 flex-row items-center justify-center shadow-md"
+                activeOpacity={0.85}
+                style={{ maxWidth: 400 }}
+              >
+                <Image source={icons.logout} className="w-5 h-5 mr-2 tint-white" />
+                <Text className="text-white text-lg font-rubik-bold">Logout</Text>
+              </TouchableOpacity>
+            </View>
+            
+            {/* Settings Menu - Always visible */}
+            <SettingsItem
+              icon={icons.person}
+              title="Profile"
+              onPress={() => handleSettingPress("Profile")}
+            />
+            
+            <SettingsItem
+              icon={icons.heart}
+              title="Favorites"
+              onPress={() => handleSettingPress("Favorites")}
+              textStyle={favorites.length > 0 ? "text-red-500" : ""}
+            />
+            
+            <SettingsItem
+              icon={icons.language}
+              title="Language"
+              onPress={() => handleSettingPress("Language")}
+            />
+            
+            <SettingsItem
+              icon={icons.info}
+              title="Help Center"
+              onPress={() => handleSettingPress("Help Center")}
+            />
+            
+            {/* Test Notifications Button */}
+            {user && (
+              <SettingsItem
+                icon={icons.bell}
+                title="Test Notifications"
+                onPress={() => handleSettingPress("Test Notifications")}
+                textStyle="text-blue-600"
+              />
+            )}
           </View>
-        )}
-      </ScrollView>
+        </ScrollView>
+      </SafeAreaView>
+
+      {/* Favorites Modal */}
+      <Modal
+        visible={favoritesModal}
+        animationType="slide"
+        transparent={true}
+        onRequestClose={() => setFavoritesModal(false)}
+      >
+        <View className="flex-1 justify-center items-center bg-black/40">
+          <View className="bg-white p-6 rounded-2xl w-96 max-h-96">
+            <View className="flex-row justify-between items-center mb-4">
+              <Text className="text-xl font-rubik-bold">My Favorites</Text>
+              <TouchableOpacity onPress={() => setFavoritesModal(false)}>
+                <Text className="text-primary-500 font-bold">✕</Text>
+              </TouchableOpacity>
+            </View>
+            {favoriteProperties.length === 0 ? (
+              <Text className="text-center text-gray-500 mb-4">No favorites yet. Add properties to your favorites to see them here.</Text>
+            ) : (
+              <ScrollView showsVerticalScrollIndicator={false}>
+                {favoriteProperties.map((property) => (
+                  <View key={property.id} className="flex-row items-center mb-4 p-3 bg-gray-50 rounded-lg">
+                    <Image source={{ uri: property.image }} className="w-16 h-16 rounded-lg mr-3" />
+                    <View className="flex-1">
+                      <Text className="font-rubik-bold text-black-300">{property.name}</Text>
+                      <Text className="text-sm text-gray-500">{property.address}</Text>
+                      <Text className="text-primary-300 font-rubik-bold">${property.price}</Text>
+                    </View>
+                    <TouchableOpacity
+                      onPress={() => removeFavorite(property.id!)}
+                      className="bg-red-500 px-3 py-1 rounded-lg"
+                    >
+                      <Text className="text-white text-sm font-rubik-bold">Remove</Text>
+                    </TouchableOpacity>
+                  </View>
+                ))}
+              </ScrollView>
+            )}
+          </View>
+        </View>
+      </Modal>
 
       {/* Edit Profile Modal */}
       <Modal
@@ -379,19 +458,13 @@ const Profile = () => {
         <View className="flex-1 justify-center items-center bg-black/40">
           <View className="bg-white p-6 rounded-2xl w-80">
             <Text className="text-xl font-rubik-bold mb-4">Edit Profile</Text>
-            {/* Profile photo picker */}
-            <TouchableOpacity onPress={pickImage} style={{ alignSelf: 'center', marginBottom: 16 }}>
+            {/* Profile photo picker - replaced with default avatar */}
+            <View style={{ alignSelf: 'center', marginBottom: 16 }}>
               <Image
-                source={{ uri: newPhoto || user?.avatar || defaultAvatar }}
+                source={defaultAvatar}
                 style={{ width: 96, height: 96, borderRadius: 48, borderWidth: 2, borderColor: '#0061FF', backgroundColor: '#eee' }}
-                onError={({ nativeEvent }) => {
-                  // fallback to default avatar if image fails to load
-                  setNewPhoto(null);
-                  // Optionally, you could set a state to force defaultAvatar
-                }}
               />
-              <Text style={{ color: '#0061FF', textAlign: 'center', marginTop: 4, fontSize: 13 }}>Change Photo</Text>
-            </TouchableOpacity>
+            </View>
             <TextInput
               value={newName}
               onChangeText={setNewName}
@@ -531,7 +604,7 @@ const Profile = () => {
           </View>
         </Modal>
       )}
-    </SafeAreaView>
+    </View>
   );
 };
 

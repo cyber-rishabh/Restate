@@ -8,18 +8,25 @@ import {
   TouchableOpacity,
   View,
   TextInput,
+  KeyboardAvoidingView,
+  Platform,
+  Keyboard,
+  Animated,
+  Dimensions,
 } from "react-native";
 
 import { Redirect, router } from "expo-router";
 import { useGlobalContext } from "@/lib/global-provider";
 import icons from "@/constants/icons";
 import images from "@/constants/images";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import { useRouter } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialIcons } from '@expo/vector-icons';
+
+const { width, height } = Dimensions.get('window');
 
 export default function SignIn() {
   const { login, loading, isLogged } = useGlobalContext();
@@ -28,6 +35,84 @@ export default function SignIn() {
   const [signInLoading, setSignInLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
+  const [keyboardOpen, setKeyboardOpen] = useState(false);
+  const [showLoadingScreen, setShowLoadingScreen] = useState(true);
+  
+  // Animation values
+  const logoScale = useRef(new Animated.Value(0.3)).current;
+  const logoOpacity = useRef(new Animated.Value(0)).current;
+  const pulseAnim = useRef(new Animated.Value(1)).current;
+  const slideUpAnim = useRef(new Animated.Value(height)).current;
+  const loadingOpacity = useRef(new Animated.Value(1)).current;
+
+  React.useEffect(() => {
+    const showSub = Keyboard.addListener("keyboardDidShow", () => setKeyboardOpen(true));
+    const hideSub = Keyboard.addListener("keyboardDidHide", () => setKeyboardOpen(false));
+    
+    // Start loading screen animations
+    startLoadingAnimations();
+    
+    return () => {
+      showSub.remove();
+      hideSub.remove();
+    };
+  }, []);
+
+  const startLoadingAnimations = () => {
+    // Logo entrance animation
+    Animated.sequence([
+      Animated.parallel([
+        Animated.timing(logoOpacity, {
+          toValue: 1,
+          duration: 800,
+          useNativeDriver: true,
+        }),
+        Animated.spring(logoScale, {
+          toValue: 1,
+          tension: 50,
+          friction: 7,
+          useNativeDriver: true,
+        }),
+      ]),
+      // Pulse animation
+      Animated.loop(
+        Animated.sequence([
+          Animated.timing(pulseAnim, {
+            toValue: 1.1,
+            duration: 1000,
+            useNativeDriver: true,
+          }),
+          Animated.timing(pulseAnim, {
+            toValue: 1,
+            duration: 1000,
+            useNativeDriver: true,
+          }),
+        ])
+      ),
+    ]).start();
+
+    // Auto transition after 3 seconds
+    setTimeout(() => {
+      transitionToSignIn();
+    }, 3000);
+  };
+
+  const transitionToSignIn = () => {
+    Animated.parallel([
+      Animated.timing(loadingOpacity, {
+        toValue: 0,
+        duration: 500,
+        useNativeDriver: true,
+      }),
+      Animated.timing(slideUpAnim, {
+        toValue: 0,
+        duration: 800,
+        useNativeDriver: true,
+      }),
+    ]).start(() => {
+      setShowLoadingScreen(false);
+    });
+  };
 
   if (!loading && isLogged) return <Redirect href="/" />;
 
@@ -65,109 +150,338 @@ export default function SignIn() {
   };
 
   return (
-    <LinearGradient
-      colors={["#e0e7ff", "#f0f4ff", "#ffffff"]}
-      start={{ x: 0, y: 0 }}
-      end={{ x: 1, y: 1 }}
-      className="flex-1"
-    >
-      <SafeAreaView className="h-full">
-        <ScrollView contentContainerStyle={{ height: "100%" }}>
-          <Image
-            source={images.onboarding}
-            className="w-full h-2/5"
-            resizeMode="contain"
-          />
-          <View className="flex-1 px-6 mt-[-40]">
-            <View className="bg-white/80 rounded-3xl shadow-lg shadow-black-100/70 px-6 py-8 backdrop-blur-md">
-              <Text className="text-base text-center uppercase font-rubik text-black-200 tracking-widest">
-                Welcome To Real Scout
-              </Text>
-              <Text className="text-4xl font-rubik-bold text-black-300 text-center mt-2 leading-tight drop-shadow-md">
-                Let's Get You Closer To {"\n"}
-                <Text className="text-primary-300">Your Ideal Home</Text>
-              </Text>
-              <Text className="text-lg font-rubik text-black-200 text-center mt-6 mb-2">
-                Please sign in or sign up to continue
-              </Text>
-              {/* Email Input */}
-              <View className="flex-row items-center border border-gray-300 rounded-lg px-4 py-3 mt-8 bg-white/90">
-                <MaterialIcons name="email" size={22} color="#8C8E98" className="mr-2" />
-                <TextInput
-                  placeholder="Email"
-                  value={email}
-                  onChangeText={setEmail}
-                  autoCapitalize="none"
-                  keyboardType="email-address"
-                  className="flex-1 font-rubik text-base"
-                  placeholderTextColor="#8C8E98"
+    <View className="flex-1">
+      {/* Loading Screen */}
+      {showLoadingScreen && (
+        <Animated.View 
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            zIndex: 1000,
+            opacity: loadingOpacity,
+          }}
+        >
+          <LinearGradient
+            colors={['#8B5CF6', '#7C3AED', '#6D28D9']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            className="flex-1 justify-center items-center"
+          >
+            {/* Animated Background Elements */}
+            <View style={{ position: 'absolute', width: width * 2, height: height * 2 }}>
+              {[...Array(6)].map((_, i) => (
+                <Animated.View
+                  key={i}
+                  style={{
+                    position: 'absolute',
+                    width: 100 + i * 20,
+                    height: 100 + i * 20,
+                    borderRadius: 50 + i * 10,
+                    backgroundColor: `rgba(255, 255, 255, ${0.05 + i * 0.02})`,
+                    top: Math.random() * height,
+                    left: Math.random() * width,
+                    transform: [
+                      {
+                        scale: pulseAnim,
+                      },
+                      {
+                        rotate: `${i * 60}deg`,
+                      },
+                    ],
+                  }}
                 />
+              ))}
+            </View>
+
+            {/* Main Logo Content */}
+            <Animated.View
+              style={{
+                transform: [
+                  { scale: logoScale },
+                  { scale: pulseAnim },
+                ],
+                opacity: logoOpacity,
+                alignItems: 'center',
+              }}
+            >
+              {/* Logo Icon */}
+              <View
+                style={{
+                  width: 120,
+                  height: 120,
+                  borderRadius: 60,
+                  backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  marginBottom: 30,
+                  shadowColor: '#000',
+                  shadowOffset: { width: 0, height: 10 },
+                  shadowOpacity: 0.3,
+                  shadowRadius: 20,
+                  elevation: 15,
+                }}
+              >
+                <MaterialIcons name="location-on" size={60} color="white" />
               </View>
-              {/* Password Input */}
-              <View className="flex-row items-center border border-gray-300 rounded-lg px-4 py-3 mt-4 bg-white/90">
-                <MaterialIcons name="lock" size={22} color="#8C8E98" className="mr-2" />
-                <TextInput
-                  placeholder="Password"
-                  value={password}
-                  onChangeText={setPassword}
-                  secureTextEntry={!showPassword}
-                  className="flex-1 font-rubik text-base"
-                  placeholderTextColor="#8C8E98"
-                />
-                <TouchableOpacity onPress={() => setShowPassword((prev) => !prev)}>
-                  <MaterialIcons
-                    name={showPassword ? "visibility" : "visibility-off"}
-                    size={22}
-                    color="#8C8E98"
+
+              {/* App Name */}
+              <Text
+                style={{
+                  fontSize: 42,
+                  fontWeight: '700',
+                  color: 'white',
+                  textAlign: 'center',
+                  letterSpacing: 2,
+                  textShadowColor: 'rgba(0, 0, 0, 0.3)',
+                  textShadowOffset: { width: 0, height: 2 },
+                  textShadowRadius: 10,
+                }}
+              >
+                The Plotify
+              </Text>
+              
+              {/* Tagline */}
+              <Text
+                style={{
+                  fontSize: 16,
+                  color: 'rgba(255, 255, 255, 0.8)',
+                  textAlign: 'center',
+                  marginTop: 10,
+                  letterSpacing: 1,
+                }}
+              >
+                Find Your Perfect Space
+              </Text>
+
+              {/* Loading Indicator */}
+              <View style={{ marginTop: 50, alignItems: 'center' }}>
+                <View
+                  style={{
+                    width: 40,
+                    height: 4,
+                    backgroundColor: 'rgba(255, 255, 255, 0.3)',
+                    borderRadius: 2,
+                    overflow: 'hidden',
+                  }}
+                >
+                  <Animated.View
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      backgroundColor: 'white',
+                      borderRadius: 2,
+                      transform: [
+                        {
+                          translateX: pulseAnim.interpolate({
+                            inputRange: [1, 1.1],
+                            outputRange: [-40, 0],
+                          }),
+                        },
+                      ],
+                    }}
                   />
-                </TouchableOpacity>
+                </View>
+                <Text
+                  style={{
+                    color: 'rgba(255, 255, 255, 0.7)',
+                    fontSize: 14,
+                    marginTop: 15,
+                    letterSpacing: 0.5,
+                  }}
+                >
+                  Loading...
+                </Text>
               </View>
+            </Animated.View>
+          </LinearGradient>
+        </Animated.View>
+      )}
+
+      {/* Main Sign In Screen */}
+      <Animated.View 
+        style={{ 
+          flex: 1, 
+          backgroundColor: '#f8f9ff',
+          transform: [{ translateY: slideUpAnim }],
+        }}
+      >
+        <SafeAreaView className="flex-1">
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={{ flex: 1 }}
+        >
+          <ScrollView 
+            contentContainerStyle={{ 
+              flexGrow: 1, 
+              justifyContent: 'center', 
+              paddingHorizontal: 24, 
+              paddingVertical: 40 
+            }} 
+            keyboardShouldPersistTaps="handled"
+          >
+            {/* Logo/Brand Section */}
+            <View className="items-center mb-12">
+              <Text 
+                className="text-5xl font-bold mb-4" 
+                style={{ color: '#6B46C1', fontWeight: '700' }}
+              >
+                The Plotify
+              </Text>
+            </View>
+
+            {/* Main Content Card */}
+            <View 
+              className="bg-white rounded-3xl p-8 shadow-lg"
+              style={{
+                shadowColor: '#000',
+                shadowOffset: { width: 0, height: 4 },
+                shadowOpacity: 0.1,
+                shadowRadius: 12,
+                elevation: 8,
+              }}
+            >
+              {/* Header */}
+              <View className="mb-8">
+                <Text 
+                  className="text-2xl font-bold text-center mb-2" 
+                  style={{ color: '#1F2937' }}
+                >
+                  Login to your Account
+                </Text>
+              </View>
+
+              {/* Email Input */}
+              <View className="mb-4">
+                <Text 
+                  className="text-sm mb-2 ml-1" 
+                  style={{ color: '#6B7280', fontWeight: '500' }}
+                >
+                  Email
+                </Text>
+                <View 
+                  className="border rounded-xl px-4 py-4"
+                  style={{ borderColor: '#E5E7EB', backgroundColor: '#F9FAFB' }}
+                >
+                  <TextInput
+                    placeholder="Enter your email"
+                    value={email}
+                    onChangeText={setEmail}
+                    autoCapitalize="none"
+                    keyboardType="email-address"
+                    className="text-base"
+                    style={{ color: '#1F2937' }}
+                    placeholderTextColor="#9CA3AF"
+                  />
+                </View>
+              </View>
+
+              {/* Password Input */}
+              <View className="mb-6">
+                <Text 
+                  className="text-sm mb-2 ml-1" 
+                  style={{ color: '#6B7280', fontWeight: '500' }}
+                >
+                  Password
+                </Text>
+                <View 
+                  className="border rounded-xl px-4 py-4 flex-row items-center"
+                  style={{ borderColor: '#E5E7EB', backgroundColor: '#F9FAFB' }}
+                >
+                  <TextInput
+                    placeholder="Enter your password"
+                    value={password}
+                    onChangeText={setPassword}
+                    secureTextEntry={!showPassword}
+                    className="flex-1 text-base"
+                    style={{ color: '#1F2937' }}
+                    placeholderTextColor="#9CA3AF"
+                  />
+                  <TouchableOpacity onPress={() => setShowPassword((prev) => !prev)} className="ml-2">
+                    <MaterialIcons
+                      name={showPassword ? "visibility" : "visibility-off"}
+                      size={22}
+                      color="#9CA3AF"
+                    />
+                  </TouchableOpacity>
+                </View>
+              </View>
+
               {/* Sign In Button */}
               <TouchableOpacity
                 onPress={handleSignIn}
-                className="rounded-full w-full py-4 mt-6 mb-2"
+                className="rounded-xl py-4 mb-6"
                 style={{
-                  backgroundColor: signInLoading ? '#8C8E98' : '#0061FF',
-                  shadowColor: '#000',
-                  shadowOpacity: 0.15,
+                  backgroundColor: signInLoading ? '#A78BFA' : '#6B46C1',
+                  shadowColor: '#6B46C1',
+                  shadowOpacity: 0.3,
                   shadowRadius: 8,
-                  shadowOffset: { width: 0, height: 2 },
-                  transform: [{ scale: signInLoading ? 0.98 : 1 }],
+                  shadowOffset: { width: 0, height: 4 },
+                  elevation: 4,
                 }}
-                activeOpacity={0.85}
+                activeOpacity={0.9}
                 disabled={signInLoading}
               >
-                <Text className="text-lg font-rubik-medium text-white text-center tracking-wide">
-                  {signInLoading ? "Signing In..." : "Sign In"}
+                <Text 
+                  className="text-lg font-semibold text-white text-center"
+                  style={{ fontWeight: '600' }}
+                >
+                  {signInLoading ? "Signing in..." : "Sign in"}
                 </Text>
               </TouchableOpacity>
-              {/* Divider */}
-              <View className="flex-row items-center my-2">
-                <View className="flex-1 h-px bg-gray-200" />
-                <Text className="mx-3 text-gray-400 font-rubik text-sm">or</Text>
-                <View className="flex-1 h-px bg-gray-200" />
-              </View>
-              {/* Sign Up Button */}
-              <TouchableOpacity
-                onPress={handleSignUp}
-                className="rounded-full w-full py-4 border border-primary-300 bg-white/80"
-                style={{
-                  shadowColor: '#0061FF',
-                  shadowOpacity: 0.08,
-                  shadowRadius: 8,
-                  shadowOffset: { width: 0, height: 2 },
-                }}
-                activeOpacity={0.85}
-              >
-                <Text className="text-lg font-rubik-medium text-primary-300 text-center tracking-wide">
-                  Sign Up
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-    </LinearGradient>
-  );
-};
 
+              {/* Divider */}
+              <View className="flex-row items-center mb-6">
+                <View className="flex-1 h-px" style={{ backgroundColor: '#E5E7EB' }} />
+                <Text className="mx-4 text-sm" style={{ color: '#9CA3AF' }}>
+                  - Or sign in with -
+                </Text>
+                <View className="flex-1 h-px" style={{ backgroundColor: '#E5E7EB' }} />
+              </View>
+
+              {/* Social Login Buttons */}
+              <View className="flex-row justify-center space-x-4 mb-8">
+                <TouchableOpacity 
+                  className="w-12 h-12 rounded-full items-center justify-center"
+                  style={{ backgroundColor: '#F3F4F6' }}
+                >
+                  <MaterialIcons name="google" size={24} color="#DB4437" />
+                </TouchableOpacity>
+                <TouchableOpacity 
+                  className="w-12 h-12 rounded-full items-center justify-center"
+                  style={{ backgroundColor: '#F3F4F6' }}
+                >
+                  <MaterialIcons name="facebook" size={24} color="#4267B2" />
+                </TouchableOpacity>
+                <TouchableOpacity 
+                  className="w-12 h-12 rounded-full items-center justify-center"
+                  style={{ backgroundColor: '#F3F4F6' }}
+                >
+                  <MaterialIcons name="alternate-email" size={24} color="#1DA1F2" />
+                </TouchableOpacity>
+              </View>
+
+              {/* Sign Up Link */}
+              <View className="flex-row justify-center">
+                <Text className="text-base" style={{ color: '#6B7280' }}>
+                  Don't have an account? 
+                </Text>
+                <TouchableOpacity onPress={handleSignUp} className="ml-1">
+                  <Text 
+                    className="text-base font-semibold" 
+                    style={{ color: '#6B46C1', fontWeight: '600' }}
+                  >
+                    Sign up
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </ScrollView>
+        </KeyboardAvoidingView>
+              </SafeAreaView>
+      </Animated.View>
+    </View>
+  );
+}

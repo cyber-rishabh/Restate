@@ -19,6 +19,8 @@ import * as ImagePicker from 'expo-image-picker';
 import { createClient } from '@supabase/supabase-js';
 import * as FileSystem from 'expo-file-system';
 import RNBlobUtil from 'react-native-blob-util';
+import { LinearGradient } from 'expo-linear-gradient';
+
 
 const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL || '';
 const supabaseKey = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY || '';
@@ -49,6 +51,7 @@ const AddPropertyModal = ({ visible, onClose, onPropertyAdded }: AddPropertyModa
   const [showCustomImageInput, setShowCustomImageInput] = useState(false);
   const [images, setImages] = useState<string[]>([]); // For local image URIs
   const [isSubmitting, setIsSubmitting] = useState(false);
+
 
   const facilities = [
     'Wifi', 'Gym', 'Swimming pool', 'Car Parking', 'Laundry', 'Garden', 'Concierge'
@@ -190,6 +193,7 @@ const AddPropertyModal = ({ visible, onClose, onPropertyAdded }: AddPropertyModa
         description: formData.description || 'Beautiful property with modern amenities.',
         reviews: [],
         gallery: safeGallery,
+
       };
 
       // Log the propertyData for debugging
@@ -250,48 +254,60 @@ const AddPropertyModal = ({ visible, onClose, onPropertyAdded }: AddPropertyModa
       presentationStyle="pageSheet"
     >
       <SafeAreaView className="flex-1 bg-white">
-        <View className="flex-row items-center justify-between p-4 border-b border-gray-200">
+        {/* Gradient Header */}
+        <LinearGradient colors={["#0061FF", "#4F8CFF"]} className="flex-row items-center justify-between p-4 border-b border-gray-200 rounded-t-2xl">
           <TouchableOpacity onPress={onClose}>
-            <Image source={icons.backArrow} className="w-6 h-6" />
+            <Image source={icons.backArrow} className="w-6 h-6 tint-white" />
           </TouchableOpacity>
-          <Text className="text-xl font-rubik-bold text-black-300">Add New Property</Text>
+          <Text className="text-xl font-rubik-bold text-white">Add New Property</Text>
           <View className="w-6" />
-        </View>
+        </LinearGradient>
 
         <ScrollView className="flex-1 p-4">
           <View className="space-y-4">
             {/* Property Name */}
             <View>
               <Text className="text-base font-rubik-medium text-black-300 mb-2">Property Name *</Text>
-              <TextInput
-                value={formData.name}
-                onChangeText={(text) => setFormData({ ...formData, name: text })}
-                placeholder="Enter property name"
-                className="border border-gray-300 rounded-lg p-3 text-base font-rubik"
-              />
+              <View className="flex-row items-center bg-gray-50 border border-gray-300 rounded-lg px-3">
+                <Image source={icons.home} className="w-5 h-5 mr-2 tint-primary-300" />
+                <TextInput
+                  value={formData.name}
+                  onChangeText={(text) => setFormData({ ...formData, name: text })}
+                  placeholder="Enter property name"
+                  className="flex-1 py-3 text-base font-rubik bg-transparent"
+                />
+              </View>
             </View>
 
             {/* Address */}
             <View>
               <Text className="text-base font-rubik-medium text-black-300 mb-2">Address *</Text>
-              <TextInput
-                value={formData.address}
-                onChangeText={(text) => setFormData({ ...formData, address: text })}
-                placeholder="Enter property address"
-                className="border border-gray-300 rounded-lg p-3 text-base font-rubik"
-              />
+              <View className="flex-row items-center bg-gray-50 border border-gray-300 rounded-lg px-3">
+                <Image source={icons.location} className="w-5 h-5 mr-2 tint-primary-300" />
+                <TextInput
+                  value={formData.address}
+                  onChangeText={(text) => setFormData({ ...formData, address: text })}
+                  placeholder="Enter property address"
+                  className="flex-1 py-3 text-base font-rubik bg-transparent"
+                />
+
+              </View>
+
             </View>
 
             {/* Price */}
             <View>
               <Text className="text-base font-rubik-medium text-black-300 mb-2">Price *</Text>
-              <TextInput
-                value={formData.price}
-                onChangeText={(text) => setFormData({ ...formData, price: text })}
-                placeholder="Enter price (e.g., 2,500)"
-                keyboardType="numeric"
-                className="border border-gray-300 rounded-lg p-3 text-base font-rubik"
-              />
+              <View className="flex-row items-center bg-gray-50 border border-gray-300 rounded-lg px-3">
+                <Image source={icons.wallet} className="w-5 h-5 mr-2 tint-primary-300" />
+                <TextInput
+                  value={formData.price}
+                  onChangeText={(text) => setFormData({ ...formData, price: text })}
+                  placeholder="Enter price (e.g., 2,500)"
+                  keyboardType="numeric"
+                  className="flex-1 py-3 text-base font-rubik bg-transparent"
+                />
+              </View>
             </View>
 
             {/* Property Images */}
@@ -461,6 +477,8 @@ const AddPropertyModal = ({ visible, onClose, onPropertyAdded }: AddPropertyModa
             </Text>
           </TouchableOpacity>
         </ScrollView>
+
+
       </SafeAreaView>
     </Modal>
   );

@@ -5,6 +5,8 @@ import AddPropertyModal from '@/components/AddPropertyModal';
 import { Card } from '@/components/Cards';
 import { getProperties, deleteProperty as deletePropertyFromDb, Property } from '@/lib/firebase';
 import icons from '@/constants/icons';
+import { LinearGradient } from 'expo-linear-gradient';
+import { Image } from 'react-native';
 
 function AdminPanel() {
   const router = useRouter();
@@ -81,53 +83,91 @@ function AdminPanel() {
   );
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>Admin Panel</Text>
-        <TouchableOpacity style={styles.backBtn} onPress={() => router.replace('/')}> 
-        </TouchableOpacity>
-      </View>
-      <View style={styles.modeSwitchContainer}>
-        <TouchableOpacity
-          style={[styles.modeBtn, mode === 'add' && styles.modeBtnActive]}
-          onPress={() => setMode('add')}
-        >
-          <Text style={[styles.modeBtnText, mode === 'add' && styles.modeBtnTextActive]}>Add</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.modeBtn, mode === 'delete' && styles.modeBtnActive]}
-          onPress={() => setMode('delete')}
-        >
-          <Text style={[styles.modeBtnText, mode === 'delete' && styles.modeBtnTextActive]}>Delete</Text>
-        </TouchableOpacity>
-      </View>
-      <Text style={styles.subtitle}>Manage all properties below</Text>
-      <FlatList
-        data={properties}
-        keyExtractor={(item) => item.id ?? ''}
-        renderItem={renderProperty}
-        contentContainerStyle={styles.listContent}
-        refreshing={loading}
-        onRefresh={fetchProperties}
-        ListEmptyComponent={
-          !loading ? (
-            <View style={styles.emptyContainer}>
-              <Text style={styles.emptyText}>No properties found.</Text>
+    <LinearGradient colors={["#e0e7ff", "#f0f4ff", "#ffffff"]} style={{ flex: 1 }}>
+      <SafeAreaView style={{ flex: 1 }}>
+        {/* Gradient Header */}
+        <LinearGradient colors={["#0061FF", "#4F8CFF"]} style={styles.header}>
+          <TouchableOpacity style={styles.backBtn} onPress={() => router.replace('/')}> 
+            <Image source={icons.backArrow} style={styles.backIcon} />
+          </TouchableOpacity>
+          <Text style={styles.headerTitle}>Admin Panel</Text>
+          <View style={{ width: 32 }} />
+        </LinearGradient>
+        {/* Mode Switch with Icons */}
+        <View style={styles.modeSwitchContainer}>
+          <TouchableOpacity
+            style={[styles.modeBtn, mode === 'add' && styles.modeBtnActive]}
+            onPress={() => setMode('add')}
+            activeOpacity={0.8}
+          >
+            <Image source={icons.edit} style={{ width: 18, height: 18, marginRight: 6, tintColor: mode === 'add' ? '#fff' : '#191D31' }} />
+            <Text style={[styles.modeBtnText, mode === 'add' && styles.modeBtnTextActive]}>Add</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.modeBtn, mode === 'delete' && styles.modeBtnActive]}
+            onPress={() => setMode('delete')}
+            activeOpacity={0.8}
+          >
+            <Image source={icons.edit} style={{ width: 18, height: 18, marginRight: 6, tintColor: mode === 'delete' ? '#fff' : '#191D31' }} />
+            <Text style={[styles.modeBtnText, mode === 'delete' && styles.modeBtnTextActive]}>Delete</Text>
+          </TouchableOpacity>
+        </View>
+        <Text style={styles.subtitle}>Manage all properties below</Text>
+        <FlatList
+          data={properties}
+          keyExtractor={(item) => item.id ?? ''}
+          renderItem={({ item }) => (
+            <View style={styles.cardContainer}>
+              {/* Property Image */}
+              {item.image && (
+                <Image source={{ uri: item.image }} style={{ width: '100%', height: 140, borderRadius: 10, marginBottom: 8 }} resizeMode="cover" />
+              )}
+              {/* Property Info */}
+              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                <Text style={{ fontWeight: 'bold', fontSize: 18, color: '#191D31' }}>{item.name || 'No Name'}</Text>
+                {item.sold && <Text style={{ backgroundColor: '#FF3B30', color: '#fff', borderRadius: 8, paddingHorizontal: 8, paddingVertical: 2, fontSize: 12, fontWeight: 'bold' }}>SOLD</Text>}
+              </View>
+              <Text style={{ color: '#0061FF', fontWeight: 'bold', fontSize: 16, marginTop: 2 }}>{item.price ? `$${item.price}` : ''}</Text>
+              {/* Card Actions */}
+              {mode === 'delete' && (
+                <TouchableOpacity
+                  style={styles.deleteBtn}
+                  onPress={() => handleDeleteProperty(item.id)}
+                  disabled={deletingId === item.id}
+                  activeOpacity={0.7}
+                >
+                  <Image source={icons.edit} style={{ width: 16, height: 16, marginRight: 4, tintColor: '#fff' }} />
+                  <Text style={styles.deleteText}>
+                    {deletingId === item.id ? 'Deleting...' : 'Delete'}
+                  </Text>
+                </TouchableOpacity>
+              )}
             </View>
-          ) : null
-        }
-      />
-      {mode === 'add' && (
-        <TouchableOpacity style={styles.fab} onPress={handleAddProperty}>
-          <Text style={styles.fabText}>+</Text>
-        </TouchableOpacity>
-      )}
-      <AddPropertyModal
-        visible={showAddModal}
-        onClose={() => setShowAddModal(false)}
-        onPropertyAdded={handlePropertyAdded}
-      />
-    </SafeAreaView>
+          )}
+          contentContainerStyle={styles.listContent}
+          refreshing={loading}
+          onRefresh={fetchProperties}
+          ListEmptyComponent={
+            !loading ? (
+              <View style={styles.emptyContainer}>
+                <Image source={require('@/assets/images/no-result.png')} style={{ width: 120, height: 120, marginBottom: 16, opacity: 0.7 }} />
+                <Text style={styles.emptyText}>No properties found.</Text>
+              </View>
+            ) : null
+          }
+        />
+        {mode === 'add' && (
+          <TouchableOpacity style={styles.fab} onPress={handleAddProperty} activeOpacity={0.85}>
+            <Image source={icons.edit} style={{ width: 28, height: 28, tintColor: '#fff' }} />
+          </TouchableOpacity>
+        )}
+        <AddPropertyModal
+          visible={showAddModal}
+          onClose={() => setShowAddModal(false)}
+          onPropertyAdded={handlePropertyAdded}
+        />
+      </SafeAreaView>
+    </LinearGradient>
   );
 }
 export default AdminPanel;
@@ -175,6 +215,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     borderRadius: 20,
     backgroundColor: '#eee',
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   modeBtnActive: {
     backgroundColor: '#0061FF',

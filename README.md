@@ -1,466 +1,287 @@
-<<<<<<< HEAD
+# 🏠 Restate - Modern Real Estate App
+
 <div align="center">
   <br />
-    <a href="https://youtu.be/CzJQEstIiEI" target="_blank">
-      <img src="https://github.com/user-attachments/assets/baed953f-81fd-4ed2-bfb9-fcbd1b80859b" alt="Project Banner">
-    </a>
-  <br />
+  <h3 align="center">A Full-Stack Real Estate Application</h3>
+  <p align="center">Built with React Native, Expo, and modern web technologies</p>
+  
   <div>
     <img src="https://img.shields.io/badge/-Expo-black?style=for-the-badge&logoColor=white&logo=expo&color=000020" alt="expo" />
     <img src="https://img.shields.io/badge/-TypeScript-black?style=for-the-badge&logoColor=white&logo=typescript&color=3178C6" alt="typescript" />
-    <img src="https://img.shields.io/badge/-Appwrite-black?style=for-the-badge&logoColor=white&logo=appwrite&color=FD366E" alt="appwrite" />
+    <img src="https://img.shields.io/badge/-React_Native-black?style=for-the-badge&logoColor=white&logo=react&color=61DAFB" alt="react-native" />
     <img src="https://img.shields.io/badge/-Tailwind_CSS-black?style=for-the-badge&logoColor=white&logo=tailwindcss&color=06B6D4" alt="tailwindcss" />
+    <img src="https://img.shields.io/badge/-Firebase-black?style=for-the-badge&logoColor=white&logo=firebase&color=FFCA28" alt="firebase" />
   </div>
-
-  <h3 align="center">A Real Estate App</h3>
-
-   <div align="center">
-     Build this project step by step with our detailed tutorial on <a href="https://www.youtube.com/@javascriptmastery/videos" target="_blank"><b>JavaScript Mastery</b></a> YouTube. Join the JSM family!
-    </div>
 </div>
 
-## 📋 <a name="table">Table of Contents</a>
+## 📋 Table of Contents
 
-1. 🤖 [Introduction](#introduction)
-2. ⚙️ [Tech Stack](#tech-stack)
-3. 🔋 [Features](#features)
-4. 🤸 [Quick Start](#quick-start)
-5. 🕸️ [Snippets](#snippets)
-6. 🔗 [Assets](#links)
-7. 🚀 [More](#more)
+1. [🚀 Features](#-features)
+2. [⚙️ Tech Stack](#️-tech-stack)
+3. [🔧 Installation](#-installation)
+4. [📱 Usage](#-usage)
+5. [🏗️ Architecture](#️-architecture)
+6. [🔔 Advanced Features](#-advanced-features)
+7. [📚 Documentation](#-documentation)
+8. [🤝 Contributing](#-contributing)
 
-## 🚨 Tutorial
+## 🚀 Features
 
-This repository contains the code corresponding to an in-depth tutorial available on our YouTube channel, <a href="https://www.youtube.com/@javascriptmastery/videos" target="_blank"><b>JavaScript Mastery</b></a>. 
+### 🏠 **Core Real Estate Features**
+- **Property Listings** - Browse comprehensive property listings with detailed information
+- **Advanced Search & Filters** - Search by location, price, bedrooms, bathrooms, and property type
+- **Property Details** - View detailed property information including images, amenities, and agent details
+- **Agent Profiles** - Connect with real estate agents and view their listings
+- **Property Reviews** - Read and write reviews for properties
+- **Image Galleries** - High-quality property images with gallery view
 
-If you prefer visual learning, this is the perfect resource for you. Follow our tutorial to learn how to build projects like these step-by-step in a beginner-friendly manner!
+### 🔔 **Smart Notifications System**
+- **New Property Alerts** - Get notified when new properties match your criteria
+- **Price Drop Alerts** - Receive notifications when properties drop in price
+- **Open House Reminders** - Never miss an open house opportunity
+- **Market Updates** - Stay informed about market trends and insights
+- **Agent Messages** - Direct communication from real estate agents
+- **Saved Search Alerts** - Automatic notifications for saved search criteria
 
-<a href="https://youtu.be/CzJQEstIiEI" target="_blank"><img src="https://github.com/sujatagunale/EasyRead/assets/151519281/1736fca5-a031-4854-8c09-bc110e3bc16d" /></a>
+### 💾 **Save Search Feature**
+- **Save Search Criteria** - Save your search preferences for future use
+- **Automatic Monitoring** - Background checking for new matching properties
+- **Smart Notifications** - Get notified when new properties match your saved searches
+- **Multiple Searches** - Save and manage multiple search criteria
 
-## <a name="introduction">🤖 Introduction</a>
+### 🎨 **Modern UI/UX**
+- **Responsive Design** - Works seamlessly across all device sizes
+- **Dark/Light Mode** - Customizable theme preferences
+- **Smooth Animations** - Fluid transitions and micro-interactions
+- **Intuitive Navigation** - Easy-to-use tab-based navigation
+- **Loading States** - Professional loading indicators and skeleton screens
 
-Build a full-stack Real Estate application with React Native, featuring Google authentication, dynamic property listings, and user profiles. Designed with modern tools like Expo SDK 52, Appwrite, Tailwind CSS, and TypeScript for a seamless and scalable experience.
+### 🔐 **Authentication & Security**
+- **Google Authentication** - Secure sign-in with Google accounts
+- **User Profiles** - Personalized user experience with profile management
+- **Data Privacy** - Secure handling of user data and preferences
 
-If you're getting started and need assistance or face any bugs, join our active Discord community with over **50k+** members. It's a place where people help each other out.
+## ⚙️ Tech Stack
 
-<a href="https://discord.com/invite/n6EdbFJ" target="_blank"><img src="https://github.com/sujatagunale/EasyRead/assets/151519281/618f4872-1e10-42da-8213-1d69e486d02e" /></a>
+### **Frontend**
+- **React Native** - Cross-platform mobile development
+- **Expo SDK 52** - Development platform and tools
+- **TypeScript** - Type-safe JavaScript development
+- **NativeWind** - Tailwind CSS for React Native
+- **React Navigation** - Navigation library for React Native
 
-## <a name="tech-stack">⚙️ Tech Stack</a>
+### **Backend & Services**
+- **Firebase** - Authentication, database, and cloud services
+- **Supabase** - Additional backend services and functions
+- **Appwrite** - Backend-as-a-Service for data management
 
-- Expo
-- React Native
-- TypeScript
-- Nativewind
-- Appwrite
-- Tailwind CSS
+### **UI & Styling**
+- **Tailwind CSS** - Utility-first CSS framework
+- **Expo Vector Icons** - Comprehensive icon library
+- **React Native Reanimated** - Smooth animations
+- **Expo Linear Gradient** - Beautiful gradient effects
 
-## <a name="features">🔋 Features</a>
+### **Development Tools**
+- **Expo Router** - File-based routing
+- **Metro** - JavaScript bundler
+- **Jest** - Testing framework
+- **ESLint** - Code linting
 
-👉 **Authentication with Google**: Secure and seamless user sign-ins using Google’s authentication service.
+## 🔧 Installation
 
-👉 **Home Page**: Displays the latest and recommended properties with powerful search and filter functionality.
-
-👉 **Explore Page**: Allows users to browse all types of properties with a clean and intuitive interface.
-
-👉 **Property Details Page**: Provides comprehensive information about individual properties, including images and key details.
-
-👉 **Profile Page**: Customizable user settings and profile management
-
-👉 **Centralized Data Fetching**: Custom-built solution inspired by TanStack’s useQuery for efficient API calls.
-
-and many more, including code architecture and reusability 
-
-## <a name="quick-start">🤸 Quick Start</a>
-
-Follow these steps to set up the project locally on your machine.
-
-**Prerequisites**
-
-Make sure you have the following installed on your machine:
-
+### **Prerequisites**
+- [Node.js](https://nodejs.org/) (v18 or higher)
+- [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)
+- [Expo CLI](https://docs.expo.dev/get-started/installation/)
 - [Git](https://git-scm.com/)
-- [Node.js](https://nodejs.org/en)
-- [npm](https://www.npmjs.com/) (Node Package Manager)
 
-**Cloning the Repository**
-
+### **Clone the Repository**
 ```bash
-git clone https://github.com/adrianhajdin/react_native-restate.git
-cd react_native-restate
+git clone https://github.com/your-username/restate.git
+cd restate
 ```
 
-**Installation** 
-
+### **Install Dependencies**
 ```bash
 npm install
+# or
+yarn install
 ```
 
-**Set Up Environment Variables**
+### **Environment Setup**
 
-Create a new file named `.env.local` in the root of your project and add the following content:
+Create a `.env.local` file in the root directory:
 
 ```env
+# Firebase Configuration
+EXPO_PUBLIC_FIREBASE_API_KEY=your_firebase_api_key
+EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN=your_firebase_auth_domain
+EXPO_PUBLIC_FIREBASE_PROJECT_ID=your_firebase_project_id
+EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET=your_firebase_storage_bucket
+EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_firebase_messaging_sender_id
+EXPO_PUBLIC_FIREBASE_APP_ID=your_firebase_app_id
+
+# Appwrite Configuration (if using)
 EXPO_PUBLIC_APPWRITE_ENDPOINT=https://cloud.appwrite.io/v1
-EXPO_PUBLIC_APPWRITE_PROJECT_ID=
-EXPO_PUBLIC_APPWRITE_DATABASE_ID=
-EXPO_PUBLIC_APPWRITE_GALLERIES_COLLECTION_ID=
-EXPO_PUBLIC_APPWRITE_REVIEWS_COLLECTION_ID=
-EXPO_PUBLIC_APPWRITE_AGENTS_COLLECTION_ID=
-EXPO_PUBLIC_APPWRITE_PROPERTIES_COLLECTION_ID=
+EXPO_PUBLIC_APPWRITE_PROJECT_ID=your_appwrite_project_id
+EXPO_PUBLIC_APPWRITE_DATABASE_ID=your_appwrite_database_id
+EXPO_PUBLIC_APPWRITE_GALLERIES_COLLECTION_ID=your_galleries_collection_id
+EXPO_PUBLIC_APPWRITE_REVIEWS_COLLECTION_ID=your_reviews_collection_id
+EXPO_PUBLIC_APPWRITE_AGENTS_COLLECTION_ID=your_agents_collection_id
+EXPO_PUBLIC_APPWRITE_PROPERTIES_COLLECTION_ID=your_properties_collection_id
+
+# Supabase Configuration (if using)
+EXPO_PUBLIC_SUPABASE_URL=your_supabase_url
+EXPO_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 ```
 
-Replace the values with your actual Appwrite credentials. You can obtain these credentials by signing up & creating a new project on the [Appwrite website](https://apwr.dev/JSM050).
-
-**Start the app**
-   
+### **Start the Development Server**
 ```bash
- npx expo start
+npx expo start
 ```
 
-In the output, you'll find options to open the app in a
+This will open the Expo development server. You can then:
+- Press `a` to open on Android emulator
+- Press `i` to open on iOS simulator
+- Scan the QR code with Expo Go app on your phone
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## 📱 Usage
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+### **For Users**
 
-## <a name="snippets">🕸️ Snippets</a>
+#### **Getting Started**
+1. Download the app or run it in development mode
+2. Sign in with your Google account
+3. Grant notification permissions for the best experience
+4. Start exploring properties!
 
-<details>
-<summary><code>lib/data.ts</code></summary>
+#### **Browsing Properties**
+1. **Home Tab** - View featured and recommended properties
+2. **Explore Tab** - Search and filter properties by various criteria
+3. **Profile Tab** - Manage your account and preferences
 
-```ts
-export const galleryImages = [
-  "https://images.unsplash.com/photo-1507089947368-19c1da9775ae?q=60&w=640&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://unsplash.com/photos/comfort-room-with-white-bathtub-and-brown-wooden-cabinets-CMejBwGAdGk",
-  "https://images.unsplash.com/photo-1638799869566-b17fa794c4de?q=60&w=640&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://images.unsplash.com/photo-1560185009-dddeb820c7b7?q=60&w=640&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://images.unsplash.com/photo-1641910532059-ad684fd3049c?q=60&w=640&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://images.unsplash.com/photo-1621293954908-907159247fc8?q=60&w=640&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://images.unsplash.com/photo-1604328702728-d26d2062c20b?q=60&w=640&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://images.unsplash.com/photo-1600435335786-d74d2bb6de37?q=60&w=640&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://images.unsplash.com/photo-1560448204-603b3fc33ddc?q=60&w=640&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://images.unsplash.com/photo-1635108198979-9806fdf275c6?q=60&w=640&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-];
+#### **Using Advanced Features**
+1. **Save Searches** - Apply filters and save your search criteria
+2. **Notifications** - Tap the bell icon to view and manage notifications
+3. **Property Details** - Tap any property to view detailed information
+4. **Contact Agents** - Reach out to agents directly from property pages
 
-export const agentImages = [
-  "https://images.unsplash.com/photo-1691335053879-02096d6ee2ca?q=60&w=640&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://images.unsplash.com/photo-1544723495-432537d12f6c?q=60&w=640&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?q=60&w=640&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://images.unsplash.com/photo-1542507464418-09c375b86bbe?q=60&w=640&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://images.unsplash.com/photo-1534308143481-c55f00be8bd7?q=60&w=640&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-];
+### **For Developers**
 
-export const reviewImages = [
-  "https://images.unsplash.com/photo-1517331671191-ddc2c6d3ebd1?q=60&w=640&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://images.unsplash.com/photo-1474176857210-7287d38d27c6?q=60&w=640&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://images.unsplash.com/photo-1511551203524-9a24350a5771?q=60&w=640&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://images.unsplash.com/photo-1507591064344-4c6ce005b128?q=60&w=640&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=60&w=640&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-];
-
-export const propertiesImages = [
-  "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?q=60&w=640&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://images.unsplash.com/photo-1605146768851-eda79da39897?q=60&w=640&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://images.unsplash.com/photo-1568605114967-8130f3a36994?q=60&w=640&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?q=60&w=640&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://images.unsplash.com/photo-1561753757-d8880c5a3551?q=60&w=640&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://images.unsplash.com/photo-1551241090-67de81d3541c?q=60&w=640&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://images.unsplash.com/photo-1697299262049-e9b5fa1e9761?q=60&w=640&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://images.unsplash.com/photo-1719299225324-301bad5c333c?q=60&w=640&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://images.unsplash.com/photo-1582063289852-62e3ba2747f8?q=60&w=640&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://images.unsplash.com/photo-1516095901529-0ef7be431a4f?q=60&w=640&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://images.unsplash.com/photo-1600585153490-76fb20a32601?q=60&w=640&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://images.unsplash.com/photo-1605276373954-0c4a0dac5b12?q=60&w=640&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?q=60&w=640&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://images.unsplash.com/photo-1720432972486-2d53db5badf0?q=60&w=640&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-];
+#### **Project Structure**
+```
+restate/
+├── app/                    # Main application screens
+│   ├── (tabs)/           # Tab-based navigation
+│   ├── properties/       # Property-related screens
+│   └── _layout.tsx      # Root layout
+├── components/           # Reusable UI components
+├── lib/                 # Utility functions and services
+├── constants/           # App constants and data
+├── assets/             # Images, fonts, and static assets
+└── supabase/           # Supabase functions
 ```
 
-</details>
+#### **Key Components**
+- `components/Search.tsx` - Advanced search functionality
+- `components/NotificationCenter.tsx` - Notification management
+- `components/SaveSearchModal.tsx` - Save search feature
+- `lib/notifications.ts` - Notification service
+- `lib/useAppwrite.ts` - Custom data fetching hook
 
-<details>
-<summary><code>lib/seed.ts</code></summary>
+## 🏗️ Architecture
 
-```ts
-import { ID } from "react-native-appwrite";
-import { databases, config } from "./appwrite";
-import {
-  agentImages,
-  galleryImages,
-  propertiesImages,
-  reviewImages,
-} from "./data";
-
-const COLLECTIONS = {
-  AGENT: config.agentsCollectionId,
-  REVIEWS: config.reviewsCollectionId,
-  GALLERY: config.galleriesCollectionId,
-  PROPERTY: config.propertiesCollectionId,
-};
-
-const propertyTypes = [
-  "House",
-  "Townhomes",
-  "Condos",
-  "Duplexes",
-  "Studios",
-  "Villa",
-  "Apartments",
-  "Others",
-];
-
-const facilities = [
-  "Laundry",
-  "Car Parking",
-  "Sports Center",
-  "Cutlery",
-  "Gym",
-  "Swimming pool",
-  "Wifi",
-  "Pet Center",
-];
-
-function getRandomSubset<T>(
-  array: T[],
-  minItems: number,
-  maxItems: number
-): T[] {
-  if (minItems > maxItems) {
-    throw new Error("minItems cannot be greater than maxItems");
-  }
-  if (minItems < 0 || maxItems > array.length) {
-    throw new Error(
-      "minItems or maxItems are out of valid range for the array"
-    );
-  }
-
-  // Generate a random size for the subset within the range [minItems, maxItems]
-  const subsetSize =
-    Math.floor(Math.random() * (maxItems - minItems + 1)) + minItems;
-
-  // Create a copy of the array to avoid modifying the original
-  const arrayCopy = [...array];
-
-  // Shuffle the array copy using Fisher-Yates algorithm
-  for (let i = arrayCopy.length - 1; i > 0; i--) {
-    const randomIndex = Math.floor(Math.random() * (i + 1));
-    [arrayCopy[i], arrayCopy[randomIndex]] = [
-      arrayCopy[randomIndex],
-      arrayCopy[i],
-    ];
-  }
-
-  // Return the first `subsetSize` elements of the shuffled array
-  return arrayCopy.slice(0, subsetSize);
-}
-
-async function seed() {
-  try {
-    // Clear existing data from all collections
-    for (const key in COLLECTIONS) {
-      const collectionId = COLLECTIONS[key as keyof typeof COLLECTIONS];
-      const documents = await databases.listDocuments(
-        config.databaseId!,
-        collectionId!
-      );
-      for (const doc of documents.documents) {
-        await databases.deleteDocument(
-          config.databaseId!,
-          collectionId!,
-          doc.$id
-        );
-      }
-    }
-
-    console.log("Cleared all existing data.");
-
-    // Seed Agents
-    const agents = [];
-    for (let i = 1; i <= 5; i++) {
-      const agent = await databases.createDocument(
-        config.databaseId!,
-        COLLECTIONS.AGENT!,
-        ID.unique(),
-        {
-          name: `Agent ${i}`,
-          email: `agent${i}@example.com`,
-          avatar: agentImages[Math.floor(Math.random() * agentImages.length)],
-        }
-      );
-      agents.push(agent);
-    }
-    console.log(`Seeded ${agents.length} agents.`);
-
-    // Seed Reviews
-    const reviews = [];
-    for (let i = 1; i <= 20; i++) {
-      const review = await databases.createDocument(
-        config.databaseId!,
-        COLLECTIONS.REVIEWS!,
-        ID.unique(),
-        {
-          name: `Reviewer ${i}`,
-          avatar: reviewImages[Math.floor(Math.random() * reviewImages.length)],
-          review: `This is a review by Reviewer ${i}.`,
-          rating: Math.floor(Math.random() * 5) + 1, // Rating between 1 and 5
-        }
-      );
-      reviews.push(review);
-    }
-    console.log(`Seeded ${reviews.length} reviews.`);
-
-    // Seed Galleries
-    const galleries = [];
-    for (const image of galleryImages) {
-      const gallery = await databases.createDocument(
-        config.databaseId!,
-        COLLECTIONS.GALLERY!,
-        ID.unique(),
-        { image }
-      );
-      galleries.push(gallery);
-    }
-
-    console.log(`Seeded ${galleries.length} galleries.`);
-
-    // Seed Properties
-    for (let i = 1; i <= 20; i++) {
-      const assignedAgent = agents[Math.floor(Math.random() * agents.length)];
-
-      const assignedReviews = getRandomSubset(reviews, 5, 7); // 5 to 7 reviews
-      const assignedGalleries = getRandomSubset(galleries, 3, 8); // 3 to 8 galleries
-
-      const selectedFacilities = facilities
-        .sort(() => 0.5 - Math.random())
-        .slice(0, Math.floor(Math.random() * facilities.length) + 1);
-
-      const image =
-        propertiesImages.length - 1 >= i
-          ? propertiesImages[i]
-          : propertiesImages[
-              Math.floor(Math.random() * propertiesImages.length)
-            ];
-
-      const property = await databases.createDocument(
-        config.databaseId!,
-        COLLECTIONS.PROPERTY!,
-        ID.unique(),
-        {
-          name: `Property ${i}`,
-          type: propertyTypes[Math.floor(Math.random() * propertyTypes.length)],
-          description: `This is the description for Property ${i}.`,
-          address: `123 Property Street, City ${i}`,
-          geolocation: `192.168.1.${i}, 192.168.1.${i}`,
-          price: Math.floor(Math.random() * 9000) + 1000,
-          area: Math.floor(Math.random() * 3000) + 500,
-          bedrooms: Math.floor(Math.random() * 5) + 1,
-          bathrooms: Math.floor(Math.random() * 5) + 1,
-          rating: Math.floor(Math.random() * 5) + 1,
-          facilities: selectedFacilities,
-          image: image,
-          agent: assignedAgent.$id,
-          reviews: assignedReviews.map((review) => review.$id),
-          gallery: assignedGalleries.map((gallery) => gallery.$id),
-        }
-      );
-
-      console.log(`Seeded property: ${property.name}`);
-    }
-
-    console.log("Data seeding completed.");
-  } catch (error) {
-    console.error("Error seeding data:", error);
-  }
-}
-
-export default seed;
+### **Data Flow**
+```
+User Interface → Components → Services → Backend APIs → Database
 ```
 
-</details>
+### **State Management**
+- **React Hooks** - Local component state
+- **Custom Hooks** - Reusable state logic
+- **Context API** - Global state management
+- **Async Storage** - Local data persistence
 
-<details>
-<summary><code>lib/useAppwrite.ts</code></summary>
+### **API Integration**
+- **Firebase** - Authentication and real-time database
+- **Supabase** - Additional backend services
+- **Appwrite** - Data management and storage
+- **Custom Hooks** - Centralized data fetching
 
-```ts
-import { Alert } from "react-native";
-import { useEffect, useState, useCallback } from "react";
+## 🔔 Advanced Features
 
-interface UseAppwriteOptions<T, P extends Record<string, string | number>> {
-  fn: (params: P) => Promise<T>;
-  params?: P;
-  skip?: boolean;
-}
+### **Notification System**
+The app includes a comprehensive notification system with:
+- Real-time push notifications
+- Background processing
+- Smart filtering and grouping
+- User preference management
 
-interface UseAppwriteReturn<T, P> {
-  data: T | null;
-  loading: boolean;
-  error: string | null;
-  refetch: (newParams: P) => Promise<void>;
-}
+### **Save Search Functionality**
+Users can save their search criteria and receive automatic notifications when:
+- New properties match their criteria
+- Prices drop on properties they're interested in
+- Open houses are scheduled for saved properties
 
-export const useAppwrite = <T, P extends Record<string, string | number>>({
-  fn,
-  params = {} as P,
-  skip = false,
-}: UseAppwriteOptions<T, P>): UseAppwriteReturn<T, P> => {
-  const [data, setData] = useState<T | null>(null);
-  const [loading, setLoading] = useState(!skip);
-  const [error, setError] = useState<string | null>(null);
+### **Property Management**
+- Comprehensive property listings
+- Detailed property information
+- Image galleries and virtual tours
+- Agent contact information
+- Review and rating system
 
-  const fetchData = useCallback(
-    async (fetchParams: P) => {
-      setLoading(true);
-      setError(null);
+## 📚 Documentation
 
-      try {
-        const result = await fn(fetchParams);
-        setData(result);
-      } catch (err: unknown) {
-        const errorMessage =
-          err instanceof Error ? err.message : "An unknown error occurred";
-        setError(errorMessage);
-        Alert.alert("Error", errorMessage);
-      } finally {
-        setLoading(false);
-      }
-    },
-    [fn]
-  );
+### **Additional Documentation**
+- [Save Search Feature](./SAVE_SEARCH_FEATURE.md) - Detailed guide on save search functionality
+- [Notification System](./NOTIFICATION_SYSTEM.md) - Comprehensive notification system documentation
 
-  useEffect(() => {
-    if (!skip) {
-      fetchData(params);
-    }
-  }, []);
+### **API Documentation**
+The app integrates with multiple backend services:
+- **Firebase** - Authentication and real-time features
+- **Supabase** - Database and serverless functions
+- **Appwrite** - Backend-as-a-Service
 
-  const refetch = async (newParams: P) => await fetchData(newParams);
+### **Testing**
+```bash
+# Run tests
+npm test
 
-  return { data, loading, error, refetch };
-};
+# Test specific features
+npm run test-properties
 ```
 
-</details>
+## 🤝 Contributing
 
-## <a name="links">🔗 Assets</a>
+We welcome contributions! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
 
-Assets and Constants used in the project can be found [here](https://drive.google.com/file/d/1HxuvAeJfiPfcZ1co5fU0ahKRw4sbA0gO/view?usp=sharing)
+### **Development Guidelines**
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-Appwrite Database Setup can be found [here](https://jsmastery.notion.site/Database-Setup-16260f3cbaf3807f8fb6cbed8d1e84fd)
+### **Code Style**
+- Follow TypeScript best practices
+- Use consistent formatting with Prettier
+- Write meaningful commit messages
+- Add tests for new features
 
-## <a name="more">🚀 More</a>
+## 📄 License
 
-**Advance your skills with Next.js Pro Course**
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-Enjoyed creating this project? Dive deeper into our PRO courses for a richer learning adventure. They're packed with
-detailed explanations, cool features, and exercises to boost your skills. Give it a go!
+## 🙏 Acknowledgments
 
-<a href="https://jsmastery.pro/next15" target="_blank">
-   <img src="https://github.com/user-attachments/assets/b8760e69-1f81-4a71-9108-ceeb1de36741" alt="Project Banner">
-</a>
+- Built with [Expo](https://expo.dev/)
+- Styled with [Tailwind CSS](https://tailwindcss.com/)
+- Powered by [Firebase](https://firebase.google.com/)
+- Icons from [Expo Vector Icons](https://icons.expo.fyi/)
 
-=======
-# Restate
->>>>>>> 4961a29503af05b0ea294e5aba14a8e3ab76aeb0
+---
+
+<div align="center">
+  <p>Made with ❤️ by the Restate Team</p>
+  <p>If you find this project helpful, please give it a ⭐️</p>
+</div>
